@@ -51,12 +51,12 @@ image = Image.open('cat.jpg')
 image = image.rotate(90).resize((240, 320))
 
 print('Press Ctrl-C to exit')
-while(True):
+while True:
     # Draw the image on the display hardware.
     print('Drawing image')
     start_time = time.time()
     disp.display(image)
     end_time = time.time()
-    print('Time to draw image: ' + str(end_time - start_time))
+    print(f'Time to draw image: {str(end_time - start_time)}')
     disp.clear((0, 0, 0))
     disp.display()

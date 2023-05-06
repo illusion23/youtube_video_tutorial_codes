@@ -186,7 +186,7 @@ class Pin(PinAPI):
     
     def _check_open(self):
         if self.closed:
-            raise IOError(str(self) + " is closed")
+            raise IOError(f"{str(self)} is closed")
     
     def _write(self, filename, value):
         with open(self._pin_path(filename), "w+") as f:
@@ -196,7 +196,7 @@ class Pin(PinAPI):
         return "/sys/devices/virtual/gpio/gpio%i/%s" % (self.soc_pin_number, filename)
     
     def __repr__(self):
-        return self.__module__ + "." + str(self)
+        return f"{self.__module__}.{str(self)}"
     
     def __str__(self):
         return "{type}({index})".format(
@@ -224,7 +224,7 @@ class PinBank(PinBankAPI):
         if self._count is not None:
             return self._count
         else:
-            raise TypeError(self.__class__.__name__ + " has no len")
+            raise TypeError(f"{self.__class__.__name__} has no len")
 
 
 BUTTON = 0
@@ -283,8 +283,8 @@ else:
                 return pin_mapping[i]
         except LookupError:
             pass
-        
-        raise IndexError(str(i) + " is not a valid pin index")
+
+        raise IndexError(f"{str(i)} is not a valid pin index")
 
     def map_with(pin_mapping):
         return lambda i: lookup(pin_mapping,i)

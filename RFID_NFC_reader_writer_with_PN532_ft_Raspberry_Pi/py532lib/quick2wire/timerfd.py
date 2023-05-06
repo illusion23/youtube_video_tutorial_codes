@@ -28,10 +28,7 @@ class timespec(Structure):
     
     @property
     def seconds(self):
-        if self.nsec == 0:
-            return self.sec
-        else:
-            return self.sec + self.nsec / 1000000000.0
+        return self.sec if self.nsec == 0 else self.sec + self.nsec / 1000000000.0
         
     @seconds.setter
     def seconds(self, secs):
