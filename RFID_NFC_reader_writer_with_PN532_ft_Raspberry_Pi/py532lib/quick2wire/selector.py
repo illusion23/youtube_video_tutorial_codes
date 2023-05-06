@@ -101,9 +101,8 @@ class Selector(SelfClosing):
         """
         self.ready = None
         self.events = 0
-        
-        readies = self._epoll.poll(timeout, maxevents=1)
-        if readies:
+
+        if readies := self._epoll.poll(timeout, maxevents=1):
             fileno, self.events = readies[0]
             self.ready = self._sources[fileno]
             

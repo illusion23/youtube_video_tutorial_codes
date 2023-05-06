@@ -6,7 +6,7 @@ from fcntl import ioctl
 from quick2wire.spi_ctypes import *
 from quick2wire.spi_ctypes import spi_ioc_transfer, SPI_IOC_MESSAGE
 
-assert sys.version_info.major >= 3, __name__ + " is only supported on Python 3"
+assert sys.version_info.major >= 3, f"{__name__} is only supported on Python 3"
 
 
 class SPIDevice:

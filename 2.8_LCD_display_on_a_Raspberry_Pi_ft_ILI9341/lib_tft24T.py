@@ -105,7 +105,7 @@ class TFT24T():
         # burn those
         x=0
         y=0
-        for k in range(10):
+        for _ in range(10):
             x += self.readValue(self.X)
             y += self.readValue(self.Y)
         # average those
@@ -353,10 +353,14 @@ class TFT24T():
         # if cursor position "pos" is within a hotspot box x0y0:x1y1, then "returnvalue" is returned
         x=pos[0]
         y=pos[1]
-        for hs in HSlist:
-            if x >= hs[0] and x<= hs[2] and y>= hs[1] and y<=hs[3]:
-                return hs[4]
-        return None
+        return next(
+            (
+                hs[4]
+                for hs in HSlist
+                if x >= hs[0] and x <= hs[2] and y >= hs[1] and y <= hs[3]
+            ),
+            None,
+        )
 
 # CUSTOM FUNCTIONS FOR draw() IN LCD CANVAS SYSTEM
 

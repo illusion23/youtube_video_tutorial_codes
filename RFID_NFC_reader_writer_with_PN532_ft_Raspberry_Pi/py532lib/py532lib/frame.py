@@ -152,31 +152,30 @@ class Pn532Frame:
     @staticmethod
     def is_valid_response(response):
         """Checks if a response from the PN532 is valid."""
-        if (response[0][0] & 0x01) == 0x01:
-            if response[0][PN532_FRAME_POSITION_PREAMBLE] == PN532_PREAMBLE:
-                if response[0][PN532_FRAME_POSITION_START_CODE_1] == PN532_START_CODE_1:
-                    if response[0][PN532_FRAME_POSITION_START_CODE_2] == PN532_START_CODE_2:
-                        return True
-
-        return False
+        return (
+            (response[0][0] & 0x01) == 0x01
+            and response[0][PN532_FRAME_POSITION_PREAMBLE] == PN532_PREAMBLE
+            and response[0][PN532_FRAME_POSITION_START_CODE_1]
+            == PN532_START_CODE_1
+            and response[0][PN532_FRAME_POSITION_START_CODE_2]
+            == PN532_START_CODE_2
+        )
 
     @staticmethod
     def is_ack(response):
         """Checks if the response is an ACK frame."""
-        if response[0][PN532_FRAME_POSITION_LENGTH] == 0x00:
-            if response[0][PN532_FRAME_POSITION_LENGTH_CHECKSUM] == 0xFF:
-                if response[0][PN532_FRAME_POSITION_FRAME_IDENTIFIER] == 0x00:
-                    return True
-
-        return False
+        return (
+            response[0][PN532_FRAME_POSITION_LENGTH] == 0x00
+            and response[0][PN532_FRAME_POSITION_LENGTH_CHECKSUM] == 0xFF
+            and response[0][PN532_FRAME_POSITION_FRAME_IDENTIFIER] == 0x00
+        )
 
     @staticmethod
     def is_error(response):
         """ Checks if the response is an error frame."""
-        if response[0][PN532_FRAME_POSITION_LENGTH] == 0x01:
-            if response[0][PN532_FRAME_POSITION_LENGTH_CHECKSUM] == 0xFF:
-                if response[0][PN532_FRAME_POSITION_FRAME_IDENTIFIER] == 0x7F:
-                    if response[0][PN532_FRAME_POSITION_DATA_START] == 0x81:
-                        return True
-
-        return False
+        return (
+            response[0][PN532_FRAME_POSITION_LENGTH] == 0x01
+            and response[0][PN532_FRAME_POSITION_LENGTH_CHECKSUM] == 0xFF
+            and response[0][PN532_FRAME_POSITION_FRAME_IDENTIFIER] == 0x7F
+            and response[0][PN532_FRAME_POSITION_DATA_START] == 0x81
+        )

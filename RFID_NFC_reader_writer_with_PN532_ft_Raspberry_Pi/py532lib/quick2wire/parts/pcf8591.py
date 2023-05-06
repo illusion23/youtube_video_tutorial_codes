@@ -111,7 +111,7 @@ class PCF8591(object):
         self._control_flags = (mode << 4)
         self._last_channel_read = None
         self._output = _OutputChannel(self)
-        
+
         if mode == FOUR_SINGLE_ENDED:
             self._single_ended_inputs = tuple(self._create_single_ended_channel(i) for i in range(4))
             self._differential_inputs = ()
@@ -125,7 +125,7 @@ class PCF8591(object):
             self._single_ended_inputs = ()
             self._differential_inputs = tuple(self._create_differential_channel(i) for i in range(3))
         else:
-            raise ValueError("invalid mode " + str(mode))
+            raise ValueError(f"invalid mode {str(mode)}")
     
     def _create_single_ended_channel(self, i):
         return _InputChannel(self, i, self.read_single_ended, 255.0)

@@ -7,9 +7,8 @@ broker = "192.168.1.9"
 port = 1883
 
 def on_message(mosq, obj, msg):
-    pri_str = msg.topic + "   " + msg.payload.decode("utf-8") 
+    pri_str = f"{msg.topic}   " + msg.payload.decode("utf-8")
     print(pri_str)
-    pass
     
     
 mqtt_sub = paho.Client()

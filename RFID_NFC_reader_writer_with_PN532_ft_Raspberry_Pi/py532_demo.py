@@ -253,10 +253,7 @@ class Mifare(i2c.Pn532_i2c):
         or write to it. The factory preset for keys is always
         b'\xFF\xFF\xFF\xFF\xFF\xFF' as defined in MIFARE_FACTORY_KEY.
         """
-        if address < 128:
-            trailer_address = address | 3
-        else:
-            trailer_address = address | 15
+        trailer_address = address | 3 if address < 128 else address | 15
         data = self.mifare_read(trailer_address)
         data = key_a + data[6:10] + key_b
         self.mifare_write_standard(trailer_address,data)

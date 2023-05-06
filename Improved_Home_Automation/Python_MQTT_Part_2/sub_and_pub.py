@@ -8,13 +8,11 @@ port = 1883
 
 def on_publish(client,userdata,result):
     print("data published \n")
-    pass
 
 
 def on_message(mosq, obj, msg):
-    pri_str = msg.topic + "   " + msg.payload.decode("utf-8") 
+    pri_str = f"{msg.topic}   " + msg.payload.decode("utf-8")
     print(pri_str)
-    pass
     
     
 mqtt_sub = paho.Client()
@@ -31,5 +29,5 @@ while True:
         mqtt_pub = paho.Client("PubDevice")
         mqtt_pub.on_publish = on_publish
         mqtt_pub.connect(broker,port)
-        ret = mqtt_pub.publish("topic","Seconds from Publish Device : {}\n".format(Sec))
+        ret = mqtt_pub.publish("topic", f"Seconds from Publish Device : {Sec}\n")
         OldSec = Sec

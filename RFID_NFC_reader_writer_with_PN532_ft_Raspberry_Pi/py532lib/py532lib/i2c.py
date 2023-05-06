@@ -63,10 +63,7 @@ class Pn532_i2c:
 
         """
         self.send_command(frame)
-        if self.read_ack():
-            return True
-        else:
-            return False
+        return bool(self.read_ack())
 
     def read_response(self):
         """Wait, then read for a response from the PN532."""
@@ -97,7 +94,6 @@ class Pn532_i2c:
                 except Exception as ex:
                     logging.debug(ex)
                     logging.debug(ex.args)
-                    pass
                 else:
                     return frame
 
@@ -139,8 +135,6 @@ class Pn532_i2c:
 
             if response_frame.get_frame_type() == PN532_FRAME_TYPE_ACK:
                 return True
-            else:
-                pass
 
     def read_mifare(self):
         """Wait for a MiFARE card to be in the PN532's field, and read it's UID."""

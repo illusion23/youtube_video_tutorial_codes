@@ -6,7 +6,6 @@ port = 1883
 
 def on_publish(client,userdata,result):
     print("\ndata published \n")
-    pass
     
     
 mqtt_pub = paho.Client("PubDevice")

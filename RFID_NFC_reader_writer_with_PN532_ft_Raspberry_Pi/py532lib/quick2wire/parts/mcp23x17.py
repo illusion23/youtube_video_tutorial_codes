@@ -7,6 +7,7 @@ MCP23S17. Only the methods for reading and writing to registers
 differ, and they must be defined by subclassing the Registers class.
 """
 
+
 import contextlib
 from warnings import warn
 from quick2wire.gpio import PinAPI, PinBankAPI
@@ -33,8 +34,9 @@ INTCAP=8
 GPIO=9
 OLAT=10
 
-bank_register_names = sorted([s for s in globals().keys() if s.upper() == s], 
-                             key=lambda s: globals()[s])
+bank_register_names = sorted(
+    [s for s in globals() if s.upper() == s], key=lambda s: globals()[s]
+)
 
 
 BANK_SIZE = 11
@@ -69,8 +71,10 @@ GPIOB = _banked_register(_BankB, GPIO)
 OLATA = _banked_register(_BankA, OLAT)
 OLATB = _banked_register(_BankB, OLAT)
 
-register_names = sorted([s for s in globals().keys() if s[-1] in ('A','B') and s.upper() == s], 
-                        key=lambda s: globals()[s])
+register_names = sorted(
+    [s for s in globals() if s[-1] in ('A', 'B') and s.upper() == s],
+    key=lambda s: globals()[s],
+)
 
 _initial_register_values = (
     ((IODIR,), 0xFF),
@@ -218,7 +222,7 @@ class PinBank(PinBankAPI):
     def __init__(self, chip, bank_id):
         self.chip = chip
         self._bank_id = bank_id
-        self._pins = tuple([Pin(self, i) for i in range(8)])
+        self._pins = tuple(Pin(self, i) for i in range(8))
         self._register_cache = [None]*BANK_SIZE # self._register_cache[IOCON] is ignored
         self._outstanding_writes = []
         self.read_mode = immediate_read
@@ -238,8 +242,7 @@ class PinBank(PinBankAPI):
     
     def pin(self, n):
         """Returns pin n."""
-        pin = self._pins[n]
-        return pin
+        return self._pins[n]
     
     __getitem__ = pin
     
@@ -312,7 +315,7 @@ class PinBank(PinBankAPI):
     
     
     def __str__(self):
-        return "PinBank("+self.index+")"
+        return f"PinBank({self.index})"
     
 
 def _register_bit(register, doc, high_value=True, low_value=False):
@@ -406,5 +409,5 @@ class Pin(PinAPI):
         return self.bank._get_register_bit(register, self.index)
         
     def __repr__(self):
-        return "Pin(banks["+ str(self.bank.index) + "], " + str(self.index) + ")"
+        return f"Pin(banks[{str(self.bank.index)}], {str(self.index)})"
 
